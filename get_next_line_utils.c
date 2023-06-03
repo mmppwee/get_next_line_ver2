@@ -6,27 +6,19 @@
 /*   By: pwareepo <pwareepo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 18:24:48 by pwareepo          #+#    #+#             */
-/*   Updated: 2023/04/19 22:18:42 by pwareepo         ###   ########.fr       */
+/*   Updated: 2023/06/03 22:06:15 by pwareepo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-// size_t	ft_strlen (const char *str)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (str[i] != '\0')
-// 		i++;
-// 	return (i);
-// }
-
-size_t	ft_strlen (const char *str, int c)
+size_t	ft_strlen(const char *str, int c)
 {
 	size_t	i;
 
 	i = 0;
+	if (str == NULL)
+		return (0);
 	if (c == 0)
 	{
 		while (str[i] != '\0')
@@ -61,64 +53,35 @@ size_t	ft_strlcpy(char *dst, char *src, size_t dstsize)
 	return (c);
 }
 
-// char	*ft_strchr(const char *s, int c)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (s[i] && s[i] != (char)c)
-// 		i++;
-// 	if (s[i] == (char)c)
-// 		return(ft_strdup ((char *)&s[i + 1]));
-// 	return (NULL);
-// }
-
-// char	*ft_strdup(const char *s1)
-// {
-// 	char	*s;
-// 	int		len;
-// 	int		i;
-
-// 	len = ft_strlen(s1);
-// 	s = (char *) malloc (len + 1);
-// 	if (s == NULL)
-// 		return (NULL);
-// 	i = 0;
-// 	while (i < len)
-// 	{
-// 		s[i] = s1[i];
-// 		i++;
-// 	}
-// 	s[i] = '\0';
-// 	return (s);
-// }
-
 char	*ft_strjoin(char *s1, char *s2)
 {
-	int	i;
-	int	j;
+	int		s1_len;
+	int		new_len;
 	char	*new;
 
-	if (s1 == NULL || s2 == NULL)
+	if (s1 == NULL && s2 == NULL)
 		return (NULL);
-	new = malloc (sizeof(char) * (ft_strlen(s1, 0) + ft_strlen(s2, 0) + 1));
+	s1_len = ft_strlen(s1, 0);
+	new_len = s1_len + ft_strlen(s2, 0) + 1;
+	new = malloc (sizeof(char) * new_len);
 	if (new == NULL)
 		return (NULL);
-	i = 0;
-	while (s1[i] != '\0')
-	{
-		new[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		new[i + j] = s2[j];
-		j++;
-	}
-	new[i + j] = '\0';
-	// free (s1);
+	if (s1 == NULL)
+		s1 = "";
+	if (s2 == NULL)
+		s2 = "";
+	ft_strlcpy(new, s1, s1_len + 1);
+	ft_strlcpy(new + s1_len, s2, new_len);
 	return (new);
+}
+
+void	free_then_null(char **ptr)
+{
+	if (*ptr)
+	{
+		free(*ptr);
+		*ptr = NULL;
+	}
 }
 
 // #include <stdio.h>
